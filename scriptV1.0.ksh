@@ -1,9 +1,9 @@
 #!/bin/ksh
 
-#Thi22s KSH checks all the files in the location of this script and replaces the first occurence of the keyword "R2I01R" with "R2I02R" in all the .ksh files found.
+#This KSH checks all the files in the location of this script and replaces the first occurence of the keyword *firstArgument* with *secondArgument in all the .ksh files found. Actions are logged in a log file.
 
 ########################
-#	 	VARIABLES	   #
+#	VARIABLES.     #
 ########################
 
 CURRENT_SCRIPT_NAME=$0
@@ -24,7 +24,7 @@ do
 
 if [[ "./$FILE" != "$CURRENT_SCRIPT_NAME" && $FILE == *.ksh ]]; then #Checks if the file is not current script and checks that it is a .ksh file
 	i=$((i+1))
-	echo "`date "+%d%m%Y-%H%M%S"`: Parsing file number $i: $FILE $CURRENT_SCRIPT_NAME $0" >> $logfile 
+	echo "`date "+%d%m%Y-%H%M%S"`: Parsing file number $i: $FILE " >> $logfile 
 	awk 'NR==1,/'"$TEXT_TO_BE_REPLACED"'/{sub(/'"$TEXT_TO_BE_REPLACED"'/, "'$REPLACEMENT_TEXT'")} 1' $FILE > FILE.new && mv FILE.new $FILE
 	#sed -i '' 's/'"$TEXT_TO_BE_REPLACED"'/'"$REPLACEMENT_TEXT"'/g' "$FILE" Replaces all occurences in a file
 chmod 777 $FILE
